@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="text-center container mt-4">
+<h2 class="shadow mb-4">Billing Details</h2>
+    <form method="POST">
+      {% csrf_token %}
+
+                <div class="mb-3 bg-secondary">
+  <label class="form-label">Address</label>
+  <input type="text" class="form-control" name="a" placeholder="Enter the address">
+</div>
+
+    <div class="mb-3 bg-secondary">
+  <label class="form-label">Phone Number</label>
+  <input type="number" class="form-control" name="n" placeholder="Enter the number">
+</div>
+
+    <div class="mb-3 bg-secondary">
+  <label class="form-label">Pincode</label>
+  <input type="number" class="form-control" name="p" placeholder="Enter the number">
+</div>
+
+        <div class="text-center mb-3">
+  <input type="Submit" value="submit">
+</div>
+
+    </form>
+    </div>
+{% endblock %}

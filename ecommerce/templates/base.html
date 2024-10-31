@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>Ecommerce</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+   <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+<header>
+
+<div class="container-fluid text-center">
+    <img src="{% static 'images/logo1.jpg'%}" class="rounded-circle" height="100px" width="100px">
+</div>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand fs-3 fw-bold" href="#">Myshop</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 fs-5 fw-bold">
+        <li class="nav-item">
+          <a class="nav-link " aria-current="page" href="{% url 'shop:categories' %}">Home</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Allcategories
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              {%for i in links%}
+            <li><a class="dropdown-item" href="{% url 'shop:product' i.id%}">{{i.name}}</a></li>
+              {% endfor %}
+
+          </ul>
+                  </li>
+          {% if user.is_authenticated %}
+          {% if user.is_superuser == False %}   <!-- Normal user-->
+                            <li class="nav-item">
+          <a class="nav-link " aria-current="page" href="{% url 'cart:cartview' %}"><i class="fa-solid fa-cart-shopping"><sup class="mx-2 fs-5">{{c}}</sup></i></a>
+        </li>
+
+                                      <li class="nav-item">
+          <a class="nav-link " aria-current="page" href="{% url 'cart:yourorders' %}">Your Orders</a>
+        </li>
+
+          {% else%}
+
+                            <li class="nav-item">
+          <a class="nav-link " aria-current="page" href="{% url 'shop:addcategory' %}">Add Categories</a>
+        </li>
+
+                            <li class="nav-item">
+          <a class="nav-link " aria-current="page" href="{% url 'shop:addproduct' %}">Add Products</a>
+        </li>
+
+          {% endif %}
+
+                  <li class="nav-item">
+          <a class="nav-link " aria-current="page" href="{% url 'shop:logout' %}">Logout</a>
+        </li>
+          {% else %}
+                    <li class="nav-item">
+          <a class="nav-link " aria-current="page" href="{% url 'shop:register' %}">Register</a>
+        </li>
+                  <li class="nav-item">
+                      <a class="nav-link " aria-current="page" href="{% url 'shop:login' %}">Login</a></li>
+          {% endif %}
+      </ul>
+
+      <form class="d-flex" method="post" action="{% url 'search:search' %}">
+          {% csrf_token %}
+        <input class="form-control me-2 border border-dark" type="search" name="q" placeholder="search" aria-label="Search">
+        <button class="btn btn-outline-dark" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>
+
+    </header>
+{% block content %}
+{% endblock %}
+
+<footer class="footer ">
+    <p class="text-center fs-5"><i class="fa fa-copyright me-1" aria-hidden="true"></i>Myshop@pvt.ltd</p>
+</footer>
+
+
+</body>
+</html>
